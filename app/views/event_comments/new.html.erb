@@ -1,0 +1,75 @@
+<!-- Validation failure messages -->
+<% if @event_comment.errors.any? %>
+  <% @event_comment.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Add Event Comment</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+
+    <form action="/create_event_comment" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+
+
+      <!-- Label and input for user_id -->
+
+      <div class="form-group">
+        <label for="user_id" class="control-label">
+          User
+        </label>
+
+
+        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @event_comment.user_id %>">
+
+      </div>
+
+
+
+      <!-- Label and input for event_id -->
+
+      <div class="form-group">
+        <label for="event_id" class="control-label">
+          Event
+        </label>
+
+
+        <input type="text" id="event_id" name="event_id" placeholder="Event" class="form-control" value="<%= @event_comment.event_id %>">
+
+      </div>
+
+
+
+      <!-- Label and input for content -->
+
+      <div class="form-group">
+        <label for="content" class="control-label">
+          Content
+        </label>
+
+
+        <textarea id="content" name="content" placeholder="Content" class="form-control" rows="3"><%= @event_comment.content %></textarea>
+
+      </div>
+
+
+
+      <button class="btn btn-success">
+        Create Event Comment
+      </button>
+      or
+      <a href="/event_comments">Cancel</a>
+
+    </form>
+
+  </div>
+</div>

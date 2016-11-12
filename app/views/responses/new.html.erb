@@ -1,0 +1,89 @@
+<!-- Validation failure messages -->
+<% if @response.errors.any? %>
+  <% @response.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Add Response</h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+
+    <form action="/create_response" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+
+
+      <!-- Label and input for user_id -->
+
+      <div class="form-group">
+        <label for="user_id" class="control-label">
+          User
+        </label>
+
+
+        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @response.user_id %>">
+
+      </div>
+
+
+
+      <!-- Label and input for event_id -->
+
+      <div class="form-group">
+        <label for="event_id" class="control-label">
+          Event
+        </label>
+
+
+        <input type="text" id="event_id" name="event_id" placeholder="Event" class="form-control" value="<%= @response.event_id %>">
+
+      </div>
+
+
+
+      <!-- Label and input for event_response -->
+
+      <div class="form-group">
+        <label for="event_response" class="control-label">
+          Event response
+        </label>
+
+
+        <input type="text" id="event_response" name="event_response" placeholder="Event response" class="form-control" value="<%= @response.event_response %>">
+
+      </div>
+
+
+
+      <!-- Label and input for back_out -->
+
+      <div class="form-group">
+        <label for="back_out" class="control-label">
+          Back out
+        </label>
+
+
+        <input type="text" id="back_out" name="back_out" placeholder="Back out" class="form-control" value="<%= @response.back_out %>">
+
+      </div>
+
+
+
+      <button class="btn btn-success">
+        Create Response
+      </button>
+      or
+      <a href="/responses">Cancel</a>
+
+    </form>
+
+  </div>
+</div>

@@ -1,0 +1,233 @@
+<!-- Validation failure messages -->
+<% if @event.errors.any? %>
+  <% @event.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Edit Event #<%= @event.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+
+    <form action="/update_event/<%= @event.id %>" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+
+
+      <!-- Label and input for title -->
+
+      <div class="form-group">
+        <label for="title" class="control-label">
+          Title
+        </label>
+
+
+        <input type="text" id="title" name="title" placeholder="Title" class="form-control" value="<%= @event.title %>">
+
+      </div>
+
+
+
+      <!-- Label and input for description -->
+
+      <div class="form-group">
+        <label for="description" class="control-label">
+          Description
+        </label>
+
+
+        <textarea id="description" name="description" placeholder="Description" class="form-control" rows="3"><%= @event.description %></textarea>
+
+      </div>
+
+
+
+      <!-- Label and input for street -->
+
+      <div class="form-group">
+        <label for="street" class="control-label">
+          Street
+        </label>
+
+
+        <input type="text" id="street" name="street" placeholder="Street" class="form-control" value="<%= @event.street %>">
+
+      </div>
+
+
+
+      <!-- Label and input for city -->
+
+      <div class="form-group">
+        <label for="city" class="control-label">
+          City
+        </label>
+
+
+        <input type="text" id="city" name="city" placeholder="City" class="form-control" value="<%= @event.city %>">
+
+      </div>
+
+
+
+      <!-- Label and input for state -->
+
+      <div class="form-group">
+        <label for="state" class="control-label">
+          State
+        </label>
+
+
+        <input type="text" id="state" name="state" placeholder="State" class="form-control" value="<%= @event.state %>">
+
+      </div>
+
+
+
+      <!-- Label and input for zip -->
+
+      <div class="form-group">
+        <label for="zip" class="control-label">
+          Zip
+        </label>
+
+
+        <input type="text" id="zip" name="zip" placeholder="Zip" class="form-control" value="<%= @event.zip %>">
+
+      </div>
+
+
+
+      <!-- Label and input for neighborhood -->
+
+      <div class="form-group">
+        <label for="neighborhood" class="control-label">
+          Neighborhood
+        </label>
+
+
+        <input type="text" id="neighborhood" name="neighborhood" placeholder="Neighborhood" class="form-control" value="<%= @event.neighborhood %>">
+
+      </div>
+
+
+
+      <!-- Label and input for number_of_spots -->
+
+      <div class="form-group">
+        <label for="number_of_spots" class="control-label">
+          Number of spots
+        </label>
+
+
+        <input type="text" id="number_of_spots" name="number_of_spots" placeholder="Number of spots" class="form-control" value="<%= @event.number_of_spots %>">
+
+      </div>
+
+
+
+      <!-- Label and input for date_time -->
+
+      <div class="form-group">
+        <label for="date_time" class="control-label">
+        Held at
+        </label>
+
+
+        <div class='input-group date' id='datetimepicker1'>
+          <input type='text' class="form-control" name="date_time" id="date_time" value="<%= @event.date_time.strftime('%a %b %e,  %Y at %l:%M %p') %>">
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
+
+      </div>
+
+
+
+      <!-- Label and input for image_url -->
+
+      <div class="form-group">
+        <label for="image_url" class="control-label">
+          Image url
+        </label>
+
+
+        <input type="text" id="image_url" name="image_url" placeholder="Image url" class="form-control" value="<%= @event.image_url %>">
+
+      </div>
+
+      <!-- Label and input for public_private -->
+
+      <div class="form-group">
+        <label for="public_private" class="control-label">
+          Public/Private
+        </label>
+        <select name="public_private">
+        <% if @event.public_private=="Public" %>
+        <option>Public</option>
+        <option>Private</option>
+        <% else %>
+        <option>Public</option>
+        <option selected>Private</option>
+        <% end %>
+      </select>
+
+
+      </div>
+
+
+
+      <!-- Label and input for flakiness_bar -->
+
+      <div class="form-group">
+        <label for="flakiness_bar" class="control-label">
+          Flakiness bar
+        </label>
+
+
+        <input type="text" id="flakiness_bar" name="flakiness_bar" placeholder="Flakiness bar" class="form-control" value="<%= @event.flakiness_bar %>">
+
+      </div>
+
+
+
+      <!-- Label and input for user_id -->
+
+      <div class="form-group">
+        <label for="user_id" class="control-label">
+          User
+        </label>
+
+
+        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @event.user_id %>">
+
+      </div>
+
+
+
+      <button class="btn btn-warning">
+        Update Event
+      </button>
+      or
+
+      <a href="/events/<%= @event.id %>">Cancel</a>
+
+
+    </form>
+
+  </div>
+</div>
+
+<script type="text/javascript">
+  $(function () {
+    $('#datetimepicker1').datetimepicker();
+  });
+</script>

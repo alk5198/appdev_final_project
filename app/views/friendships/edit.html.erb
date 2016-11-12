@@ -1,0 +1,77 @@
+<!-- Validation failure messages -->
+<% if @friendship.errors.any? %>
+  <% @friendship.errors.full_messages.each do |message| %>
+    <div class="alert alert-dismissable alert-danger">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+      <%= message %>
+    </div>
+  <% end %>
+<% end %>
+
+<div class="page-header">
+  <h3>Edit Friendship #<%= @friendship.id %></h3>
+</div>
+
+<div class="row">
+  <div class="col-md-12">
+
+    <form action="/update_friendship/<%= @friendship.id %>" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+
+
+      <!-- Label and input for user_id_1 -->
+
+      <div class="form-group">
+        <label for="user_id_1" class="control-label">
+          User id 1
+        </label>
+
+
+        <input type="text" id="user_id_1" name="user_id_1" placeholder="User id 1" class="form-control" value="<%= @friendship.user_id_1 %>">
+
+      </div>
+
+
+
+      <!-- Label and input for user_id_2 -->
+
+      <div class="form-group">
+        <label for="user_id_2" class="control-label">
+          User id 2
+        </label>
+
+
+        <input type="text" id="user_id_2" name="user_id_2" placeholder="User id 2" class="form-control" value="<%= @friendship.user_id_2 %>">
+
+      </div>
+
+
+
+      <!-- Label and input for relationship -->
+
+      <div class="form-group">
+        <label for="relationship" class="control-label">
+          Relationship
+        </label>
+
+
+        <input type="text" id="relationship" name="relationship" placeholder="Relationship" class="form-control" value="<%= @friendship.relationship %>">
+
+      </div>
+
+
+
+      <button class="btn btn-warning">
+        Update Friendship
+      </button>
+      or
+
+      <a href="/friendships/<%= @friendship.id %>">Cancel</a>
+
+
+    </form>
+
+  </div>
+</div>
