@@ -1,44 +1,101 @@
 <div class="page-header">
   <h1>
-    Friendships
+  My Friends
+  
 
     <a href="/friendships/new" class="btn btn-lg btn-success">New Friendship</a>
 
   </h1>
 </div>
 
+<h2> Pending Friend Requests </h2>
+
 <div class="row">
   <div class="col-md-12">
     <table class="table table-striped table-hover">
       <tr>
 
-        <th>User id 1</th>
+        <th>Sender</th>
 
-        <th>User id 2</th>
+        <th>Receiver</th>
 
-        <th>Relationship</th>
+        <th>Message</th>
 
-        <th>Actions</th>
+        <th>Status</th>
       </tr>
 
       <% @friendships.each do |friendship| %>
       <tr>
 
-        <td><%= friendship.user_id_1 %></td>
+      <% if friendship.receiver.id == current_user.id && friendship.status == 3 %>
+        <td><%= friendship.sender.email %></td>
 
-        <td><%= friendship.user_id_2 %></td>
+        <td><%= friendship.receiver.email %></td>
 
-        <td><%= friendship.relationship %></td>
+        <td><%= friendship.message %></td>
+
+        <td>Pending</td>
 
         <td>
-
-          <a href="/friendships/<%= friendship.id %>" class="btn btn-primary">Show</a>
-
-          <a href="/friendships/<%= friendship.id %>/edit" class="btn btn-warning">Edit</a>
-          <a href="/delete_friendship/<%= friendship.id %>" class="btn btn-danger" rel="nofollow">Delete</a>
-
-
+        <a href="/accept_friendship/<%= friendship.id %>" class="btn btn-primary">Accept</a>
+        <a href="/delete_friendship/<%= friendship.id %>" class="btn btn-danger" >Reject</a>
         </td>
+
+        <% elsif friendship.sender.id == current_user.id && friendship.status == 3 %>
+        <td><%= friendship.sender.email %></td>
+
+        <td><%= friendship.receiver.email %></td>
+
+        <td><%= friendship.message %></td>
+
+        <td>Pending</td>
+
+        <td>
+        <a href="/delete_friendship/<%= friendship.id %>" class="btn btn-danger" >Remove Request</a>
+        <%end%>
+        </td>
+
+
+
+
+
+
+      </tr>
+      <% end %>
+    </table>
+  </div>
+
+
+
+</div>
+
+
+<h2> My Friends </h2>
+
+<div class="row">
+  <div class="col-md-3">
+    <table class="table table-striped table-hover">
+      <tr>
+        <th>Friend</th>
+        <th></th>
+
+      </tr>
+
+      <% @friendships.each do |friendship| %>
+      <tr>
+
+      <% if friendship.receiver.id == current_user.id || friendship.sender.id == current_user.id && friendship.status == 1 %>
+        <% if friendship.sender.id != current_user.id%>
+        <td><%= friendship.sender.email %></td>
+        <%else%>
+        <td><%= friendship.receiver.email %></td>
+        <%end%>
+        <td>
+        <a href="/delete_friendship/<%= friendship.id %>" class="btn btn-danger" >Delete friendship</a>
+        </td>
+
+        <%else%>
+        <%end%>
       </tr>
       <% end %>
     </table>

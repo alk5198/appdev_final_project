@@ -7,12 +7,15 @@ class EventsController < ApplicationController
 
   def show
     @event = Event.find(params[:id])
+    @event_comment = EventComment.new
+
 
     render("events/show.html.erb")
   end
 
   def new
     @event = Event.new
+    @friendships = Friendship.all
 
     render("events/new.html.erb")
   end
@@ -47,9 +50,20 @@ class EventsController < ApplicationController
 
     @event.user_id = params[:user_id]
 
+    @response = Response.new
+
+    @response.user_id = params[:invite_id]
+
+    @response.event_response = "Pending"
+
+    @response.back_out = 0
 
 
     save_status = @event.save
+
+    @response.event_id = @event.id
+
+     @response.save
 
     if save_status == true
       redirect_to(:back, :notice => "Event created successfully.")

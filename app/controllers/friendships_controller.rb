@@ -2,6 +2,8 @@ class FriendshipsController < ApplicationController
   def index
     @friendships = Friendship.all
 
+
+
     render("friendships/index.html.erb")
   end
 
@@ -27,6 +29,9 @@ class FriendshipsController < ApplicationController
 
     @friendship.relationship = params[:relationship]
 
+    @friendship.message = params[:message]
+
+    @friendship.status = params[:status]
 
 
     save_status = @friendship.save
@@ -63,6 +68,21 @@ class FriendshipsController < ApplicationController
       redirect_to(:back, :notice => "Friendship updated successfully.")
     else
       render("friendships/edit.html.erb")
+    end
+
+  end
+
+  def accept
+    @friendship = Friendship.find(params[:id])
+
+    @friendship.status = 1
+
+    save_status = @friendship.save
+
+    if save_status == true
+      redirect_to(:back, :notice => "Friend added successfully.")
+    else
+      render("friendships.html.erb")
     end
 
   end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161112012057) do
+ActiveRecord::Schema.define(version: 20161113165130) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "commentable_id"
@@ -62,6 +62,8 @@ ActiveRecord::Schema.define(version: 20161112012057) do
     t.string   "relationship"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "status"
+    t.text     "message"
   end
 
   create_table "responses", force: :cascade do |t|

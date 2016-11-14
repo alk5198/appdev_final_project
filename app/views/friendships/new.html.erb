@@ -24,12 +24,8 @@
       <!-- Label and input for user_id_1 -->
 
       <div class="form-group">
-        <label for="user_id_1" class="control-label">
-          User id 1
-        </label>
 
-
-        <input type="text" id="user_id_1" name="user_id_1" placeholder="User id 1" class="form-control" value="<%= @friendship.user_id_1 %>">
+        <input type="hidden" id="user_id_1" name="user_id_1" placeholder="User id 1" class="form-control" value="<%= current_user.id %>">
 
       </div>
 
@@ -39,32 +35,39 @@
 
       <div class="form-group">
         <label for="user_id_2" class="control-label">
-          User id 2
+          Friend to add:
         </label>
 
-
-        <input type="text" id="user_id_2" name="user_id_2" placeholder="User id 2" class="form-control" value="<%= @friendship.user_id_2 %>">
+        <%= select_tag(:user_id_2, options_from_collection_for_select(User.all.where.not(id: current_user.id), :id, :email, @friendship.user_id_2), :class => "form-control") %>
 
       </div>
 
+      <div class="form-group">
+        <label for="message" class="control-label">
+          Mesage
+        </label>
 
+        <input type="text" id="message" name="message" class="form-control" value="I would like to add you as a friend :)">
 
       <!-- Label and input for relationship -->
 
       <div class="form-group">
-        <label for="relationship" class="control-label">
-          Relationship
-        </label>
 
+        <input type="hidden" id="relationship" name="relationship"  class="form-control" value="default">
 
-        <input type="text" id="relationship" name="relationship" placeholder="Relationship" class="form-control" value="<%= @friendship.relationship %>">
+      </div>
+
+      <div class="form-group">
+
+        <input type="hidden" id="status" name="status" class="form-control" value="3">
+
+        <!-- 1=Accept 2=Reject 3=Pending -->
 
       </div>
 
 
-
       <button class="btn btn-success">
-        Create Friendship
+        Send request
       </button>
       or
       <a href="/friendships">Cancel</a>

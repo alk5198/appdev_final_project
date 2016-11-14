@@ -173,7 +173,7 @@
           Public/Private
         </label>
 
-        <select name="public_private">
+        <select name="public_private" >
         <option>Public</option>
         <option>Private</option>
       </select>
@@ -200,20 +200,32 @@
       <!-- Label and input for user_id -->
 
       <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
 
 
-        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @event.user_id %>">
+        <input type="hidden" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= current_user.id%>">
 
       </div>
 
       <div class="form-group">
-        <label  class="control-label">
+        <label  for="invites" class="control-label">
           Invite friends!
         </label>
 
+
+
+        <select multiple class="form-control" id="invites" name="invite_id" >
+        <% @friendships.each do |friendship| %>
+          <tr>
+          <% if friendship.receiver.id == current_user.id || friendship.sender.id == current_user.id && friendship.status == 1 %>
+            <% if friendship.sender.id != current_user.id%>
+            <td><option  value="friendship.user_id_1"><%= friendship.sender.email %></option></td>
+            <%else%>
+            <td><option  value="friendship.user_id_2">1<%= friendship.receiver.email %></option></td>
+            <%end%>
+
+          <%end%>
+          <%end%>
+        </select>
       </div>
 
 

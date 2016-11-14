@@ -1,5 +1,5 @@
 <div class="page-header">
-  <h3>Event #<%= @event.id %></h3>
+  <h3>Event #<%= @event.id %> <dd><img src="<%= @event.image_url %>"></dd></h3>
 </div>
 
 
@@ -16,21 +16,8 @@
       <dd><%= @event.description %></dd>
 
 
-      <dt>Street</dt>
+      <dt>Address</dt>
       <dd><%= @event.street %></dd>
-
-
-      <dt>City</dt>
-      <dd><%= @event.city %></dd>
-
-
-      <dt>State</dt>
-      <dd><%= @event.state %></dd>
-
-
-      <dt>Zip</dt>
-      <dd><%= @event.zip %></dd>
-
 
       <dt>Neighborhood</dt>
       <dd><%= @event.neighborhood %></dd>
@@ -41,11 +28,7 @@
 
 
       <dt>Date time</dt>
-      <dd><%= @event.date_time %></dd>
-
-
-      <dt>Image url</dt>
-      <dd><%= @event.image_url %></dd>
+      <dd><%= @event.date_time.strftime('%a %b %e,  %Y at %l:%M %p') %></dd>
 
 
       <dt>Public private</dt>
@@ -56,8 +39,8 @@
       <dd><%= @event.flakiness_bar %></dd>
 
 
-      <dt>User</dt>
-      <dd><%= @event.user_id %></dd>
+      <dt>Creator</dt>
+      <dd><%= @event.user.email %></dd>
 
 
     </dl>
@@ -77,5 +60,73 @@
 
 
     </div>
+  </div>
+</div>
+
+
+<% @event.event_comments.each do |comment| %>
+<div class="col-sm-5">
+<div class="panel panel-default">
+<div class="panel-heading">
+<strong><%= comment.user.try(:email)%></strong> <span class="text-muted"><%= time_ago_in_words(comment.created_at)%> ago</span>
+</div>
+<div class="panel-body">
+<%= comment.content %>
+</div><!-- /panel-body -->
+</div><!-- /panel panel-default -->
+</div><!-- /col-sm-5 -->
+<% end %>
+
+<div class="row">
+  <div class="col-md-12">
+
+    <form action="/create_event_comment" method="post">
+      <!-- Hidden input for authenticity token to protect from forgery -->
+      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
+
+
+
+      <!-- Label and input for user_id -->
+
+      <div class="form-group">
+
+        <input type="hidden" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= current_user.id%>">
+
+      </div>
+
+
+
+      <!-- Label and input for event_id -->
+
+      <div class="form-group">
+
+        <input type="hidden" id="event_id" name="event_id" placeholder="Event" class="form-control" value="<%= @event.id %>">
+
+      </div>
+
+
+
+      <!-- Label and input for content -->
+
+      <div class="form-group">
+        <label for="content" class="control-label">
+          Comment
+        </label>
+
+
+        <textarea id="content" name="content" placeholder="Insert comment here" class="form-control" rows="3"><%= @event_comment.content %></textarea>
+
+      </div>
+
+
+
+      <button class="btn btn-success">
+        Create Event Comment
+      </button>
+      or
+      <a href="/event_comments">Cancel</a>
+
+    </form>
+
   </div>
 </div>

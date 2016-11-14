@@ -46,7 +46,12 @@
 
           <li><a href="/events">Events</a></li>
 
+          <% if current_user && Friendship.where("user_id_2 = #{current_user.id} AND status = 3").count!=0 %>
+          <li class="active"><a href="/friendships">Friends &nbsp;<span class="badge">
+          <%=  Friendship.where("user_id_2 = #{current_user.id} AND status = 3").count %></span> </a></li>
+          <% else %>
           <li><a href="/friendships">Friends</a></li>
+          <% end %>
 
           <li><a href="/rails/info">Sitemap</a></li>
 

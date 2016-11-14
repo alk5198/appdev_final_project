@@ -116,7 +116,7 @@ Rails.application.routes.draw do
   # UPDATE
   get "/friendships/:id/edit", :controller => "friendships", :action => "edit"
   post "/update_friendship/:id", :controller => "friendships", :action => "update"
-
+  get "/accept_friendship/:id", :controller => "friendships", :action => "accept"
   # DELETE
   get "/delete_friendship/:id", :controller => "friendships", :action => "destroy"
   #------------------------------
