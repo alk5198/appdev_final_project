@@ -50,20 +50,27 @@ class EventsController < ApplicationController
 
     @event.user_id = params[:user_id]
 
-    @response = Response.new
-
-    @response.user_id = params[:invite_id]
-
-    @response.event_response = "Pending"
-
-    @response.back_out = 0
-
-
     save_status = @event.save
 
-    @response.event_id = @event.id
 
-     @response.save
+
+  @response = Response.new
+          params[:invites].each do |i|
+            @response = Response.new
+
+            @response.user_id = i
+
+
+            @response.event_response = "Pending"
+
+            @response.back_out = 0
+
+            @response.event_id = @event.id
+
+            @response.save
+          end
+
+
 
     if save_status == true
       redirect_to(:back, :notice => "Event created successfully.")
@@ -72,6 +79,8 @@ class EventsController < ApplicationController
     end
 
   end
+
+
 
   def edit
     @event = Event.find(params[:id])

@@ -9,7 +9,7 @@
 <% end %>
 
 <div class="page-header">
-  <h3>Add Event</h3>
+  <h3>Add Event This is a test</h3>
 </div>
 
 <div class="row">
@@ -213,14 +213,14 @@
 
 
 
-        <select multiple class="form-control" id="invites" name="invite_id" >
+        <select multiple class="form-control" id="invites" name="invites[]" >
         <% @friendships.each do |friendship| %>
           <tr>
           <% if friendship.receiver.id == current_user.id || friendship.sender.id == current_user.id && friendship.status == 1 %>
             <% if friendship.sender.id != current_user.id%>
-            <td><option  value="friendship.user_id_1"><%= friendship.sender.email %></option></td>
+            <td><option  value=<%= friendship.user_id_1 %>><%= friendship.sender.email %></option></td>
             <%else%>
-            <td><option  value="friendship.user_id_2">1<%= friendship.receiver.email %></option></td>
+            <td><option  value=<%= friendship.user_id_2 %>><%= friendship.receiver.email %></option></td>
             <%end%>
 
           <%end%>
