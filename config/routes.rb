@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get "/event_comments/:id/edit", :controller => "event_comments", :action => "edit"
   post "/update_event_comment/:id", :controller => "event_comments", :action => "update"
 
+
   # DELETE
   get "/delete_event_comment/:id", :controller => "event_comments", :action => "destroy"
   #------------------------------
@@ -82,6 +83,8 @@ Rails.application.routes.draw do
   # UPDATE
   get "/events/:id/edit", :controller => "events", :action => "edit"
   post "/update_event/:id", :controller => "events", :action => "update"
+  get "/accept_invite/:id", :controller => "events", :action => "accept"
+  get "/reject_invite/:id", :controller => "events", :action => "reject"
 
   # DELETE
   get "/delete_event/:id", :controller => "events", :action => "destroy"

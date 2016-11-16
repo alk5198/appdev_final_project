@@ -5,4 +5,6 @@ class Event < ActiveRecord::Base
   validates :title, :presence => true
   validates :date_time, :presence => true
 
+  has_many :responses
+
 end

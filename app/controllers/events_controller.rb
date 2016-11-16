@@ -130,6 +130,38 @@ class EventsController < ApplicationController
 
   end
 
+  def accept
+    @event = Event.find(params[:id])
+    @response = @event.responses.find_by_user_id(current_user.id)
+
+    @response.event_response = "Accepted"
+
+    save_status = @response.save
+
+    if save_status == true
+      redirect_to(:back, :notice => "Event has been accepted successfully.")
+    else
+      render("events.html.erb")
+    end
+
+  end
+
+def reject
+      @event = Event.find(params[:id])
+      @response = @event.responses.find_by_user_id(current_user.id)
+
+      @response.event_response = "Rejected"
+
+      save_status = @response.save
+
+      if save_status == true
+        redirect_to(:back, :notice => "Event has been rejected successfully.")
+      else
+        render("events.html.erb")
+      end
+end
+
+
   def destroy
     @event = Event.find(params[:id])
 
