@@ -124,8 +124,9 @@ class EventsController < ApplicationController
 
     save_status = @event.save
 
-    @response = Response.new
             params[:invites].each do |i|
+              if @event.responses.find_by user_id: i
+            else
               @response = Response.new
 
               @response.user_id = i
@@ -139,6 +140,9 @@ class EventsController < ApplicationController
 
               @response.save
             end
+          end
+
+
 
     if save_status == true
       redirect_to("/events", :notice => "Event updated successfully.")

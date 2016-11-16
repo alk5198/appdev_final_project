@@ -213,11 +213,14 @@
 
       <div class="form-group">
         <label for="invites" class="control-label">
-          Invite friends
+          Invite additional friends
         </label>
-        
+
       <select multiple class="form-control" id="invites" name="invites[]" >
       <% @friendships.each do |friendship| %>
+      <% if @event.responses.find_by user_id: friendship.receiver.id %>
+      <% elsif @event.responses.find_by user_id: friendship.sender.id %>
+      <% else %>
         <tr>
         <% if friendship.receiver.id == current_user.id || friendship.sender.id == current_user.id && friendship.status == 1 %>
           <% if friendship.sender.id != current_user.id%>
@@ -226,6 +229,7 @@
           <td><option  value=<%= friendship.user_id_2 %>><%= friendship.receiver.email %></option></td>
           <%end%>
 
+        <%end%>
         <%end%>
         <%end%>
       </select>
