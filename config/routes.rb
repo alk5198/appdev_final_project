@@ -85,6 +85,7 @@ Rails.application.routes.draw do
   post "/update_event/:id", :controller => "events", :action => "update"
   get "/accept_invite/:id", :controller => "events", :action => "accept"
   get "/reject_invite/:id", :controller => "events", :action => "reject"
+    get "/hide_invite/:id", :controller => "events", :action => "hide"
 
   # DELETE
   get "/delete_event/:id", :controller => "events", :action => "destroy"

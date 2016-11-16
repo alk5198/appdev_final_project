@@ -161,6 +161,21 @@ def reject
       end
 end
 
+def hide
+      @event = Event.find(params[:id])
+      @response = @event.responses.find_by_user_id(current_user.id)
+
+      @response.event_response = "Hidden"
+
+      save_status = @response.save
+
+      if save_status == true
+        redirect_to(:back, :notice => "Event has been hidden successfully.")
+      else
+        render("events.html.erb")
+      end
+end
+
 
   def destroy
     @event = Event.find(params[:id])
