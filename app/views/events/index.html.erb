@@ -24,7 +24,7 @@
 
         <th>Neighborhood</th>
 
-        <th>Number of spots</th>
+        <th>Number of spots available</th>
 
         <th>Held at</th>
 
@@ -76,6 +76,8 @@
 
         <td>
 
+          <a href="/events/<%= event.id %>" class="btn btn-primary">Event page</a>
+
           <a href="/accept_invite/<%= event.id %>" class="btn btn-primary">Accept</a>
 
           <a href="/reject_invite/<%= event.id %>" class="btn btn-warning">Reject</a>
@@ -106,7 +108,7 @@
 
         <th>Neighborhood</th>
 
-        <th>Number of spots</th>
+        <th>Number of spots available</th>
 
         <th>Held at</th>
 
@@ -126,7 +128,7 @@
       <% @events.each do |event| %>
       <% event.responses.each do |response| %>
       <tr>
-      <% if response.user_id == current_user.id && response.event_response == "Accepted" %>
+      <% if response.user_id == current_user.id && response.event_response == "Accepted"  %>
 
 
         <td><img src="<%= event.image_url%>" width="80"></td>
@@ -158,12 +160,49 @@
 
         <td>
 
-          <a href="/reject_invite/<%= event.id %>" class="btn btn-warning">Back out</a>
+          <a href="/events/<%= event.id %>" class="btn btn-primary">Event page</a>
+          <a href="/back_out_invite/<%= event.id %>" class="btn btn-warning">Back out</a>
 
         </td>
+        <% end %>
+        <% end %>
+        <% if event.user_id == current_user.id %>
+        <td><img src="<%= event.image_url%>" width="80"></td>
+
+        <td><%= event.title %></td>
+
+        <td><%= event.description %></td>
+
+        <td><%= event.street %></td>
+
+        <td><%= event.neighborhood %></td>
+
+        <td><%= event.number_of_spots %></td>
+
+        <td><%= event.date_time.strftime('%a %b %e,  %Y at %l:%M %p') %></td>
+
+        <td><%= time_ago_in_words(event.created_at) %> ago</td>
+
+
+
+
+        <td><%= event.public_private %></td>
+
+        <td><%= event.flakiness_bar %></td>
+
+        <td><%= event.user.email %></td>
+
+        <td>You Created this event!</td>
+
+        <td>
+
+          <a href="/events/<%= event.id %>" class="btn btn-primary">Event page</a>
+          <a href="/delete_event/<%= event.id %>" class="btn btn-warning">Delete event</a>
+        </td>
+        <% end %>
       </tr>
-      <% end %>
-      <% end %>
+
+
       <% end %>
     </table>
   </div>
@@ -186,7 +225,7 @@
 
         <th>Neighborhood</th>
 
-        <th>Number of spots</th>
+        <th>Number of spots available</th>
 
         <th>Held at</th>
 
@@ -237,6 +276,7 @@
         <td><%= response.event_response %></td>
 
         <td>
+          <a href="/events/<%= event.id %>" class="btn btn-primary">Event page</a>
 
           <a href="/accept_invite/<%= event.id %>" class="btn btn-primary">Accept</a>
 

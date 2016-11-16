@@ -211,7 +211,24 @@
 
       </div>
 
+      <div class="form-group">
+        <label for="invites" class="control-label">
+          Invite friends
+        </label>
+        
+      <select multiple class="form-control" id="invites" name="invites[]" >
+      <% @friendships.each do |friendship| %>
+        <tr>
+        <% if friendship.receiver.id == current_user.id || friendship.sender.id == current_user.id && friendship.status == 1 %>
+          <% if friendship.sender.id != current_user.id%>
+          <td><option  value=<%= friendship.user_id_1 %>><%= friendship.sender.email %></option></td>
+          <%else%>
+          <td><option  value=<%= friendship.user_id_2 %>><%= friendship.receiver.email %></option></td>
+          <%end%>
 
+        <%end%>
+        <%end%>
+      </select>
 
       <button class="btn btn-warning">
         Update Event

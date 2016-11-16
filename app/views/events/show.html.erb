@@ -1,3 +1,4 @@
+
 <div class="page-header">
   <h3>Event #<%= @event.id %> <dd><img src="<%= @event.image_url %>"></dd></h3>
 </div>
@@ -41,6 +42,7 @@
 
       <dt>Creator</dt>
       <dd><%= @event.user.email %></dd>
+
 
 
     </dl>
@@ -130,3 +132,52 @@
 
   </div>
 </div>
+
+
+<h2> Accepted </h2>
+<div class="row">
+  <div class="col-md-12 mb-2">
+    <dl class="dl-horizontal">
+
+      <% @accepted = @event.responses.where(event_response: "Accepted") %>
+      <% @accepted.each do |i| %>
+
+
+      <dt><%= i.user.email %></dt>
+    <% end %>
+
+</dl>
+</div>
+ </div>
+
+ <h2> Rejected </h2>
+ <div class="row">
+   <div class="col-md-12 mb-2">
+     <dl class="dl-horizontal">
+
+       <% @accepted = @event.responses.where(event_response: "Rejected") %>
+       <% @accepted.each do |i| %>
+
+
+       <dt><%= i.user.email %></dt>
+     <% end %>
+
+ </dl>
+ </div>
+  </div>
+
+  <h2> Pending </h2>
+  <div class="row">
+    <div class="col-md-12 mb-2">
+      <dl class="dl-horizontal">
+
+        <% @accepted = @event.responses.where(event_response: "Pending") %>
+        <% @accepted.each do |i| %>
+
+
+        <dt><%= i.user.email %></dt>
+      <% end %>
+
+  </dl>
+  </div>
+   </div>

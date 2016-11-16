@@ -84,6 +84,8 @@ class EventsController < ApplicationController
 
   def edit
     @event = Event.find(params[:id])
+    @friendships = Friendship.all
+
 
     render("events/edit.html.erb")
   end
@@ -122,6 +124,22 @@ class EventsController < ApplicationController
 
     save_status = @event.save
 
+    @response = Response.new
+            params[:invites].each do |i|
+              @response = Response.new
+
+              @response.user_id = i
+
+
+              @response.event_response = "Pending"
+
+              @response.back_out = 0
+
+              @response.event_id = @event.id
+
+              @response.save
+            end
+
     if save_status == true
       redirect_to("/events", :notice => "Event updated successfully.")
     else
@@ -132,6 +150,8 @@ class EventsController < ApplicationController
 
   def accept
     @event = Event.find(params[:id])
+    @event.number_of_spots = @event.number_of_spots - 1
+    @event.save
     @response = @event.responses.find_by_user_id(current_user.id)
 
     @response.event_response = "Accepted"
@@ -148,6 +168,23 @@ class EventsController < ApplicationController
 
 def reject
       @event = Event.find(params[:id])
+      @response = @event.responses.find_by_user_id(current_user.id)
+
+      @response.event_response = "Rejected"
+
+      save_status = @response.save
+
+      if save_status == true
+        redirect_to(:back, :notice => "Event has been rejected successfully.")
+      else
+        render("events.html.erb")
+      end
+end
+
+def back_out
+      @event = Event.find(params[:id])
+      @event.number_of_spots = @event.number_of_spots + 1
+      @event.save
       @response = @event.responses.find_by_user_id(current_user.id)
 
       @response.event_response = "Rejected"
@@ -179,6 +216,16 @@ end
 
   def destroy
     @event = Event.find(params[:id])
+
+    @event.responses.each do |response|
+      response.destroy
+      response.save
+    end
+
+    @event.event_comments.each do |comment|
+      comment.destroy
+      comment.save
+    end
 
     @event.destroy
 
