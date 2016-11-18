@@ -153,6 +153,9 @@ class EventsController < ApplicationController
   end
 
   def accept
+
+## add if spots is 0 do nothing but send a warning message
+##else 
     @event = Event.find(params[:id])
     @event.number_of_spots = @event.number_of_spots - 1
     @event.save
