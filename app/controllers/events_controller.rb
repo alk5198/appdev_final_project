@@ -155,8 +155,14 @@ class EventsController < ApplicationController
   def accept
 
 ## add if spots is 0 do nothing but send a warning message
-##else 
+##else
+
     @event = Event.find(params[:id])
+
+if @event.number_of_spots == 0
+  redirect_to(:back, :alert=> "Sorry this event is full! Reach out to the creator to open up more spots.")
+else
+
     @event.number_of_spots = @event.number_of_spots - 1
     @event.save
     @response = @event.responses.find_by_user_id(current_user.id)
@@ -172,7 +178,7 @@ class EventsController < ApplicationController
     end
 
   end
-
+end
 def reject
       @event = Event.find(params[:id])
       @response = @event.responses.find_by_user_id(current_user.id)
