@@ -13,6 +13,7 @@ class User < ActiveRecord::Base
 
   has_many :friends_where_receiver, :through => :friend_requests_where_receiver, :source => :sender
 
+  belongs_to :score
 
 
 end

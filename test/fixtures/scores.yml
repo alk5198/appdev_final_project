@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  flakiness_score: 1
+  creator_score: 1
+  overall_score: 1
+
+two:
+  user_id: 1
+  flakiness_score: 1
+  creator_score: 1
+  overall_score: 1

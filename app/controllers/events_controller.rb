@@ -154,15 +154,14 @@ class EventsController < ApplicationController
 
   def accept
 
-## add if spots is 0 do nothing but send a warning message
-##else
 
     @event = Event.find(params[:id])
+
 
 if @event.number_of_spots == 0
   redirect_to(:back, :alert=> "Sorry this event is full! Reach out to the creator to open up more spots.")
 else
-
+    if @event.number_of_spots
     @event.number_of_spots = @event.number_of_spots - 1
     @event.save
     @response = @event.responses.find_by_user_id(current_user.id)
@@ -176,8 +175,34 @@ else
     else
       render("events.html.erb")
     end
+  else
+    @response = @event.responses.find_by_user_id(current_user.id)
+
+    @response.event_response = "Accepted"
+
+    save_status = @response.save
+
+    if save_status == true
+      redirect_to(:back, :notice => "Event has been accepted successfully.")
+    else
+      render("events.html.erb")
+    end
+  end
 
   end
+
+if Score.find_by user_id: current_user.id
+  @score = Score.find_by user_id: current_user.id
+  @score.flakiness_score = @score.flakiness_score + 1
+  @score.save
+else
+  @score = Score.new
+  @score.user_id = current_user.id
+  @score.flakiness_score = 75+1
+  @score.save
+end
+
+
 end
 def reject
       @event = Event.find(params[:id])
@@ -196,6 +221,9 @@ end
 
 def back_out
       @event = Event.find(params[:id])
+
+      if @event.number_of_spots
+
       @event.number_of_spots = @event.number_of_spots + 1
       @event.save
       @response = @event.responses.find_by_user_id(current_user.id)
@@ -209,6 +237,30 @@ def back_out
       else
         render("events.html.erb")
       end
+    else
+      @response = @event.responses.find_by_user_id(current_user.id)
+
+      @response.event_response = "Rejected"
+
+      save_status = @response.save
+
+      if save_status == true
+        redirect_to(:back, :notice => "Event has been rejected successfully.")
+      else
+        render("events.html.erb")
+end
+end
+
+  @score = Score.find_by user_id: current_user.id
+
+  if @event.date_time - Time.now >= 86400
+    @score.flakiness_score = @score.flakiness_score - 1
+    @score.save
+  else
+    @score.flakiness_score = @score.flakiness_score - 5
+    @score.save  
+end
+
 end
 
 def hide

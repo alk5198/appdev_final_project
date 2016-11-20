@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161113165130) do
+ActiveRecord::Schema.define(version: 20161119142627) do
 
   create_table "comments", force: :cascade do |t|
     t.integer  "commentable_id"
@@ -73,6 +73,15 @@ ActiveRecord::Schema.define(version: 20161113165130) do
     t.integer  "back_out"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "scores", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "flakiness_score"
+    t.integer  "creator_score"
+    t.integer  "overall_score"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "taggings", force: :cascade do |t|
