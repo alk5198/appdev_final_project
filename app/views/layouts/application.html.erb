@@ -44,7 +44,13 @@
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul class="nav navbar-nav">
 
+          <% if current_user && Response.where("user_id = #{current_user.id} AND event_response = 'Pending'").count!=0 %>
+          <li class="active"><a href="/events">Events &nbsp;<span class="badge">
+          <%=  Response.where("user_id = #{current_user.id} AND event_response = 'Pending'").count %></span> </a></li>
+          <% else %>
           <li><a href="/events">Events</a></li>
+          <% end %>
+
 
           <% if current_user && Friendship.where("user_id_2 = #{current_user.id} AND status = 3").count!=0 %>
           <li class="active"><a href="/friendships">Friends &nbsp;<span class="badge">

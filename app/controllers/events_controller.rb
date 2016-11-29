@@ -156,10 +156,15 @@ class EventsController < ApplicationController
 
 
     @event = Event.find(params[:id])
-
+    @current_score = Score.find_by_user_id(current_user.id) ###Add a .scope here for nils??
+    @current_score = @current_score.flakiness_score
 
 if @event.number_of_spots == 0
   redirect_to(:back, :alert=> "Sorry this event is full! Reach out to the creator to open up more spots.")
+elsif @current_score == 0
+  redirect_to(:back, :alert=> "Sorry you do not yet have a flakiness score")
+elsif @event.flakiness_bar > @current_score
+  redirect_to(:back, :alert=> "Sorry you are too big of a flake for this event ;)")
 else
     if @event.number_of_spots
     @event.number_of_spots = @event.number_of_spots - 1
@@ -254,11 +259,11 @@ end
   @score = Score.find_by user_id: current_user.id
 
   if @event.date_time - Time.now >= 86400
-    @score.flakiness_score = @score.flakiness_score - 1
+    @score.flakiness_score = @score.flakiness_score - 2
     @score.save
   else
     @score.flakiness_score = @score.flakiness_score - 5
-    @score.save  
+    @score.save
 end
 
 end
