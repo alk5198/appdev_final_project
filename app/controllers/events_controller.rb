@@ -155,15 +155,23 @@ class EventsController < ApplicationController
   def accept
 
 
-    @event = Event.find(params[:id])
-    @current_score = Score.find_by_user_id(current_user.id) ###Add a .scope here for nils??
-    @current_score = @current_score.flakiness_score
+@event = Event.find(params[:id])
+
+if Score.find_by user_id: current_user.id
+  @current_score = Score.find_by user_id: current_user.id
+else
+  @current_score = Score.new
+  @current_score.user_id = current_user.id
+  @current_score.flakiness_score = 75
+  @current_score.save
+end
+
+
+
 
 if @event.number_of_spots == 0
   redirect_to(:back, :alert=> "Sorry this event is full! Reach out to the creator to open up more spots.")
-elsif @current_score == 0
-  redirect_to(:back, :alert=> "Sorry you do not yet have a flakiness score")
-elsif @event.flakiness_bar > @current_score
+elsif @event.flakiness_bar > @current_score.flakiness_score
   redirect_to(:back, :alert=> "Sorry you are too big of a flake for this event ;)")
 else
     if @event.number_of_spots
@@ -172,6 +180,9 @@ else
     @response = @event.responses.find_by_user_id(current_user.id)
 
     @response.event_response = "Accepted"
+
+    @current_score.flakiness_score = @current_score.flakiness_score + 1
+    @current_score.save
 
     save_status = @response.save
 
@@ -185,6 +196,9 @@ else
 
     @response.event_response = "Accepted"
 
+    @current_score.flakiness_score = @current_score.flakiness_score + 1
+    @current_score.save
+
     save_status = @response.save
 
     if save_status == true
@@ -195,17 +209,6 @@ else
   end
 
   end
-
-if Score.find_by user_id: current_user.id
-  @score = Score.find_by user_id: current_user.id
-  @score.flakiness_score = @score.flakiness_score + 1
-  @score.save
-else
-  @score = Score.new
-  @score.user_id = current_user.id
-  @score.flakiness_score = 75+1
-  @score.save
-end
 
 
 end

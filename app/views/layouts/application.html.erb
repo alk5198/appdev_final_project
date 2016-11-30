@@ -45,18 +45,19 @@
         <ul class="nav navbar-nav">
 
           <% if current_user && Response.where("user_id = #{current_user.id} AND event_response = 'Pending'").count!=0 %>
-          <li class="active"><a href="/events">Events &nbsp;<span class="badge">
+
+          <li class="active"><a href="/events"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; Events &nbsp;<span class="badge">
           <%=  Response.where("user_id = #{current_user.id} AND event_response = 'Pending'").count %></span> </a></li>
           <% else %>
-          <li><a href="/events">Events</a></li>
+          <li><a href="/events"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;Events</a></li>
           <% end %>
 
 
           <% if current_user && Friendship.where("user_id_2 = #{current_user.id} AND status = 3").count!=0 %>
-          <li class="active"><a href="/friendships">Friends &nbsp;<span class="badge">
+          <li class="active"><a href="/friendships"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;Friends &nbsp;<span class="badge">
           <%=  Friendship.where("user_id_2 = #{current_user.id} AND status = 3").count %></span> </a></li>
           <% else %>
-          <li><a href="/friendships">Friends</a></li>
+          <li><a href="/friendships"><i class="fa fa-users" aria-hidden="true"></i>&nbsp;Friends</a></li>
           <% end %>
 
           <li><a href="/rails/info">Sitemap</a></li>
@@ -69,8 +70,8 @@
         <p class="navbar-text pull-right">
 <% if user_signed_in? %>
   Logged in as <strong><%= current_user.email %></strong>.
-  <%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
-  <%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
+  <i class="fa fa-fw fa-edit"></i><%= link_to 'Edit profile', edit_user_registration_path, :class => 'navbar-link' %> |
+  <i class="fa fa-sign-out" aria-hidden="true"></i><%= link_to "Logout", destroy_user_session_path, method: :delete, :class => 'navbar-link'  %>
 <% else %>
   <%= link_to "Sign up", new_user_registration_path, :class => 'navbar-link'  %> |
   <%= link_to "Login", new_user_session_path, :class => 'navbar-link'  %>
