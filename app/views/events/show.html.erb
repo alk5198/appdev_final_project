@@ -143,7 +143,11 @@
       <% @accepted.each do |i| %>
 
 
-      <dt><%= i.user.email %></dt>
+      <dt><%= i.user.email %>
+      <% if @event.user_id == current_user.id %>
+      <a href="/remove_invited/<%= @event.id %>/<%=i.user_id%>" class="btn btn-danger" rel="nofollow">Delete</a>
+      <% end %>
+      </dt>
     <% end %>
 
 </dl>
@@ -159,7 +163,11 @@
        <% @accepted.each do |i| %>
 
 
-       <dt><%= i.user.email %></dt>
+       <dt><%= i.user.email %>
+         <% if @event.user_id == current_user.id %>
+         <a href="/remove_invited/<%= @event.id %>/<%=i.user_id%>" class="btn btn-danger" rel="nofollow">Delete</a>
+         <% end %>
+        </dt>
      <% end %>
 
  </dl>
@@ -175,7 +183,11 @@
         <% @accepted.each do |i| %>
 
 
-        <dt><%= i.user.email %></dt>
+        <dt><%= i.user.email %>
+        <% if @event.user_id == current_user.id %>
+          <a href="/remove_invited/<%= @event.id %>/<%=i.user_id%>" class="btn btn-danger" rel="nofollow">Delete</a>
+          <% end %>
+        </dt>
       <% end %>
 
   </dl>

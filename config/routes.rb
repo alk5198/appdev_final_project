@@ -90,6 +90,8 @@ Rails.application.routes.draw do
   get "/back_out_invite/:id", :controller => "events", :action => "back_out"
   # DELETE
   get "/delete_event/:id", :controller => "events", :action => "destroy"
+
+  get "/remove_invited/:id/:user_id", :controller => "events", :action => "remove_invited"
   #------------------------------
 
   # Routes for the User resource:

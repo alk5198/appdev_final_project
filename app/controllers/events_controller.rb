@@ -171,7 +171,7 @@ end
 
 if @event.number_of_spots == 0
   redirect_to(:back, :alert=> "Sorry this event is full! Reach out to the creator to open up more spots.")
-elsif @event.flakiness_bar > @current_score.flakiness_score
+elsif @event.flakiness_bar && @event.flakiness_bar > @current_score.flakiness_score
   redirect_to(:back, :alert=> "Sorry you are too big of a flake for this event ;)")
 else
     if @event.number_of_spots
@@ -308,4 +308,18 @@ end
       redirect_to(:back, :notice => "Event deleted.")
     end
   end
+
+  def remove_invited
+
+
+    @response = Response.where(user_id: params[:user_id], event_id: params[:id]).take 
+    @response.destroy
+    @response.save
+
+
+    redirect_to(:back, :notice => "User deleted.")
+
+  end
+
+
 end
