@@ -6,6 +6,8 @@ gem 'devise'
 
 gem 'acts_as_commentable_with_threading'
 
+gem "rest-client", "~> 1.6.7"
+
 gem 'chronic'
 
 gem 'momentjs-rails', '>= 2.9.0'

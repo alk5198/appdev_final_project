@@ -15,7 +15,7 @@ class EventsController < ApplicationController
 
 
 
-if @event.street != "" 
+if @event.street != ""
     @street_address_without_spaces = URI.encode(@event.street)
 
         url = "http://maps.googleapis.com/maps/api/geocode/json?address=#{@street_address_without_spaces}"
@@ -90,6 +90,8 @@ end
 
             @response.save
           end
+
+
 
 
 
@@ -341,6 +343,25 @@ end
     redirect_to(:back, :notice => "User deleted.")
 
   end
+
+  def send_simple_message
+
+  @event = Event.find(params[:id])
+
+@event.responses.each do |response|
+
+    RestClient.post "https://api:key-d2d7469c797de7837080759482b47f00"\
+    "@api.mailgun.net/v3/sandbox9ee08d75de414c67b7de10bd6ea8bb1b.mailgun.org/messages",
+    :from => "#{@event.user.email} <postmaster@sandbox9ee08d75de414c67b7de10bd6ea8bb1b.mailgun.org>",
+    :to => "Placeholder Username <#{response.user.email}>",
+    :subject => "Hello Adam, you have just been invited to a #{@event.title} on SchedDash",
+    :text => "You have been invied to the following event: #{@event.title}, to be held on #{@event.date_time}. Please visit http://localhost:3000 to accept/reject the invite :)"
+end
+
+redirect_to(:back, :notice => "Invites sent successfully.")
+
+  end
+
 
 
 end

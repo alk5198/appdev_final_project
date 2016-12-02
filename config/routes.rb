@@ -80,6 +80,8 @@ Rails.application.routes.draw do
   # READ
   get "/events", :controller => "events", :action => "index"
   get "/events/:id", :controller => "events", :action => "show"
+
+  get "/send_simple_message/:id", :controller => "events", :action => "send_simple_message"
   # UPDATE
   get "/events/:id/edit", :controller => "events", :action => "edit"
   post "/update_event/:id", :controller => "events", :action => "update"
