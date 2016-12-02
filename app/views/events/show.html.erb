@@ -17,13 +17,6 @@
       <dd><%= @event.description %></dd>
 
 
-      <dt>Address</dt>
-      <dd><%= @event.street %></dd>
-
-      <dt>Neighborhood</dt>
-      <dd><%= @event.neighborhood %></dd>
-
-
       <dt>Number of spots</dt>
       <dd><%= @event.number_of_spots %></dd>
 
@@ -43,7 +36,52 @@
       <dt>Creator</dt>
       <dd><%= @event.user.email %></dd>
 
+<% if @event.street !="" %>
 
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+#map {
+  width: 500px;
+  height: 400px;
+}
+</style>
+</head>
+<body>
+  <div id="map"></div>
+  <script>
+  function initMap() {
+    var mapDiv = document.getElementById('map');
+    var map = new google.maps.Map(mapDiv, {
+      center: {lat: <%=@lat%>, lng: <%=@long%>},
+      zoom: 14
+    });
+
+
+    var infowindow = new google.maps.InfoWindow({
+      content: "<%=@event.description%>"
+    });
+
+    var marker = new google.maps.Marker({
+      position: {lat: <%=@lat%>, lng: <%=@long%>},
+      map: map,
+      title: '<%= @event.title %>',
+      icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+    });
+
+    marker.addListener('click', function() {
+      infowindow.open(map, marker);
+    });
+
+  };
+
+  </script>
+  <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+</body>
+</html>
+
+<% end %>
 
     </dl>
 

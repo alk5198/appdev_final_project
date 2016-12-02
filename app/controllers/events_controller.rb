@@ -1,3 +1,7 @@
+require 'open-uri'
+require 'json'
+
+
 class EventsController < ApplicationController
   def index
     @events = Event.all
@@ -9,6 +13,23 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
     @event_comment = EventComment.new
 
+
+
+if @event.street != "" 
+    @street_address_without_spaces = URI.encode(@event.street)
+
+        url = "http://maps.googleapis.com/maps/api/geocode/json?address=#{@street_address_without_spaces}"
+
+        raw_data = open(url).read
+        parsed_data = JSON.parse(raw_data)
+
+              @results = parsed_data["results"]
+              @first=@results[0]
+              @geometry=@first["geometry"]
+              @location=@geometry["location"]
+              @lat=@location["lat"]
+              @long=@location["lng"]
+end
 
     render("events/show.html.erb")
   end
@@ -312,7 +333,7 @@ end
   def remove_invited
 
 
-    @response = Response.where(user_id: params[:user_id], event_id: params[:id]).take 
+    @response = Response.where(user_id: params[:user_id], event_id: params[:id]).take
     @response.destroy
     @response.save
 
