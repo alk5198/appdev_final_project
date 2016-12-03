@@ -1,237 +1,238 @@
+<h3><div class="btn-group ">
 
-<div class="page-header">
-  <h3>Event #<%= @event.id %> <dd><img src="<%= @event.image_url %>"></dd></h3>
-</div>
+  <a href="/my_events" class="btn btn-success">
+    Back
+  </a>
+
+
+
+
+
+</div> </h3>
+
 
 
 
 <div class="row">
-  <div class="col-md-12 mb-2">
-    <dl class="dl-horizontal">
+  <div class="col-md-10 col-md-offset-1">
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h1 class="panel-title">
+            <strong> <%=@event.title %> </strong>
 
-      <dt>Title</dt>
-      <dd><%= @event.title %></dd>
-
-
-      <dt>Description</dt>
-      <dd><%= @event.description %></dd>
-
-
-      <dt>Number of spots</dt>
-      <dd><%= @event.number_of_spots %></dd>
-
-
-      <dt>Date time</dt>
-      <dd><%= @event.date_time.strftime('%a %b %e,  %Y at %l:%M %p') %></dd>
-
-
-      <dt>Public private</dt>
-      <dd><%= @event.public_private %></dd>
-
-
-      <dt>Flakiness bar</dt>
-      <dd><%= @event.flakiness_bar %></dd>
-
-
-      <dt>Creator</dt>
-      <dd><%= @event.user.email %></dd>
-
-<% if @event.street !="" %>
-
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-#map {
-  width: 500px;
-  height: 400px;
-}
-</style>
-</head>
-<body>
-  <div id="map"></div>
-  <script>
-  function initMap() {
-    var mapDiv = document.getElementById('map');
-    var map = new google.maps.Map(mapDiv, {
-      center: {lat: <%=@lat%>, lng: <%=@long%>},
-      zoom: 14
-    });
-
-
-    var infowindow = new google.maps.InfoWindow({
-      content: "<%=@event.description%>"
-    });
-
-    var marker = new google.maps.Marker({
-      position: {lat: <%=@lat%>, lng: <%=@long%>},
-      map: map,
-      title: '<%= @event.title %>',
-      icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
-    });
-
-    marker.addListener('click', function() {
-      infowindow.open(map, marker);
-    });
-
-  };
-
-  </script>
-  <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
-</body>
-</html>
-
-<% end %>
-
-<a href="/send_simple_message/<%=@event.id%>" class="btn btn-info">Send email to pending invites</a>
+          <small> <em>
+            @ <%=@event.user.email%>
+          </emd></small>
 
 
 
-    </dl>
+          <a href="/delete_event/<%= @event.id %>" data-toggle="tooltip" data-placement="bottom" title="Warning: This will permanantly delete the event, no going back!!!">
+          <span class="pull-right">Delete&nbsp;<i class="fa fa-trash-o fa-md" aria-hidden="true"></i></span>
+        </a>
 
-    <div class="btn-group btn-group-justified">
+        <a href="/events/<%= @event.id %>/edit" >
+          <span class="pull-right">Edit <i class="fa fa-fw fa-edit fa-md" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;</span>
+        </a>
+          </h1>
+            <h3 class="panel-title">
+                <%= @event.date_time.strftime('%b %e, %C%y @ %l:%M%P') %>
 
-      <a href="/events" class="btn btn-primary">
-        Back
-      </a>
-
-      <a href="/events/<%= @event.id %>/edit" class="btn btn-warning">
-        Edit
-      </a>
-      <a href="/delete_event/<%= @event.id %>" class="btn btn-danger" rel="nofollow">
-        Delete
-      </a>
+              <span class="pull-right"><%=@event.responses.where(event_response: "Accepted").count%> Accepted |  <%=@event.number_of_spots%>  Spots Left </span>
+        </h3>
+      </div>
 
 
+      <div class="panel-body">
+
+
+
+          <img src="<%= @event.image_url%>" class="col-md-1" style='width:50%' height= "285px" >
+
+          <!DOCTYPE html>
+          <html>
+          <head>
+          <style>
+          #map {
+            width: 440px;
+            height: 285px;
+          }
+          </style>
+          </head>
+          <body>
+            <div id="map"></div>
+            <script>
+            function initMap() {
+              var mapDiv = document.getElementById('map');
+              var map = new google.maps.Map(mapDiv, {
+                center: {lat: <%=@lat%>, lng: <%=@long%>},
+                zoom: 14
+              });
+
+
+              var infowindow = new google.maps.InfoWindow({
+                content: "<%=@event.description%>"
+              });
+
+              var marker = new google.maps.Marker({
+                position: {lat: <%=@lat%>, lng: <%=@long%>},
+                map: map,
+                title: '<%= @event.title %>',
+                icon: 'http://maps.google.com/mapfiles/ms/icons/red-dot.png'
+              });
+
+              marker.addListener('click', function() {
+                infowindow.open(map, marker);
+              });
+
+            };
+
+            </script>
+            <script src="https://maps.googleapis.com/maps/api/js?callback=initMap" async defer></script>
+          </body>
+          </html>
+
+
+                <dd><strong>Description:</strong> <%= @event.description %></dd>
+                <dd><strong>Flakiness bar:</strong> <%=@event.flakiness_bar%></dd>
+
+      </div>
     </div>
   </div>
-</div>
-
-
-<% @event.event_comments.each do |comment| %>
-<div class="col-sm-5">
-<div class="panel panel-default">
-<div class="panel-heading">
-<strong><%= comment.user.try(:email)%></strong> <span class="text-muted"><%= time_ago_in_words(comment.created_at)%> ago</span>
-</div>
-<div class="panel-body">
-<%= comment.content %>
-</div><!-- /panel-body -->
-</div><!-- /panel panel-default -->
-</div><!-- /col-sm-5 -->
-<% end %>
-
-<div class="row">
-  <div class="col-md-12">
-
-    <form action="/create_event_comment" method="post">
-      <!-- Hidden input for authenticity token to protect from forgery -->
-      <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
-
-
-
-      <!-- Label and input for user_id -->
-
-      <div class="form-group">
-
-        <input type="hidden" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= current_user.id%>">
-
-      </div>
-
-
-
-      <!-- Label and input for event_id -->
-
-      <div class="form-group">
-
-        <input type="hidden" id="event_id" name="event_id" placeholder="Event" class="form-control" value="<%= @event.id %>">
-
-      </div>
-
-
-
-      <!-- Label and input for content -->
-
-      <div class="form-group">
-        <label for="content" class="control-label">
-          Comment
-        </label>
-
-
-        <textarea id="content" name="content" placeholder="Insert comment here" class="form-control" rows="3"><%= @event_comment.content %></textarea>
-
-      </div>
-
-
-
-      <button class="btn btn-success">
-        Create Event Comment
-      </button>
-      or
-      <a href="/event_comments">Cancel</a>
-
-    </form>
 
   </div>
-</div>
 
 
-<h2> Accepted </h2>
-<div class="row">
-  <div class="col-md-12 mb-2">
-    <dl class="dl-horizontal">
-
-      <% @accepted = @event.responses.where(event_response: "Accepted") %>
-      <% @accepted.each do |i| %>
-
-
-      <dt><%= i.user.email %>
-      <% if @event.user_id == current_user.id %>
-      <a href="/remove_invited/<%= @event.id %>/<%=i.user_id%>" class="btn btn-danger" rel="nofollow">Delete</a>
-      <% end %>
-      </dt>
-    <% end %>
-
-</dl>
-</div>
- </div>
-
- <h2> Rejected </h2>
- <div class="row">
-   <div class="col-md-12 mb-2">
-     <dl class="dl-horizontal">
-
-       <% @accepted = @event.responses.where(event_response: "Rejected") %>
-       <% @accepted.each do |i| %>
-
-
-       <dt><%= i.user.email %>
-         <% if @event.user_id == current_user.id %>
-         <a href="/remove_invited/<%= @event.id %>/<%=i.user_id%>" class="btn btn-danger" rel="nofollow">Delete</a>
-         <% end %>
-        </dt>
-     <% end %>
-
- </dl>
- </div>
-  </div>
-
-  <h2> Pending </h2>
   <div class="row">
-    <div class="col-md-12 mb-2">
+    <div class="col-md-12 mb-2 col-md-offset-1">
       <dl class="dl-horizontal">
 
-        <% @accepted = @event.responses.where(event_response: "Pending") %>
-        <% @accepted.each do |i| %>
+
+        <% @event.event_comments.each do |comment| %>
+        <div class="col-sm-5 col-md-5">
+        <div class="panel panel-default">
+        <div class="panel-heading">
+        <strong><%= comment.user.try(:email)%></strong> <span class="text-muted"><%= time_ago_in_words(comment.created_at)%> ago</span>
+        </div>
+        <div class="panel-body">
+        <%= comment.content %>
+        </div><!-- /panel-body -->
+        </div><!-- /panel panel-default -->
+        </div><!-- /col-sm-5 -->
+        <% end %>
+
+        <div class="row">
+          <div class="col-md-10">
+
+            <form action="/create_event_comment" method="post">
+              <!-- Hidden input for authenticity token to protect from forgery -->
+              <input name="authenticity_token" type="hidden" value="<%= form_authenticity_token %>">
 
 
-        <dt><%= i.user.email %>
-        <% if @event.user_id == current_user.id %>
-          <a href="/remove_invited/<%= @event.id %>/<%=i.user_id%>" class="btn btn-danger" rel="nofollow">Delete</a>
-          <% end %>
-        </dt>
-      <% end %>
 
-  </dl>
-  </div>
-   </div>
+              <!-- Label and input for user_id -->
+
+              <div class="form-group">
+
+                <input type="hidden" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= current_user.id%>">
+
+              </div>
+
+
+
+              <!-- Label and input for event_id -->
+
+              <div class="form-group">
+
+                <input type="hidden" id="event_id" name="event_id" placeholder="Event" class="form-control" value="<%= @event.id %>">
+
+              </div>
+
+
+
+              <!-- Label and input for content -->
+
+              <div class="form-group">
+                <label for="content" class="control-label">
+                  Comment
+                </label>
+
+
+                <textarea id="content" name="content" placeholder="Insert comment here" class="form-control" rows="3"><%= @event_comment.content %></textarea>
+
+              </div>
+
+
+
+              <button class="btn btn-success">
+                Create Event Comment
+              </button>
+              
+            </form>
+
+          </div>
+        </div>
+
+
+<h3></h3>
+        <a href="/send_simple_message/<%=@event.id%>" class="btn btn-info">Send email to pending invites</a>
+
+
+        <h2> Accepted </h2>
+        <div class="row">
+          <div class="col-md-12 mb-2">
+            <dl class="dl-horizontal">
+
+              <% @accepted = @event.responses.where(event_response: "Accepted") %>
+              <% @accepted.each do |i| %>
+
+
+              <dt><%= i.user.email %>
+              <% if @event.user_id == current_user.id %>
+              <a href="/remove_invited/<%= @event.id %>/<%=i.user_id%>" class="btn btn-danger" rel="nofollow">Delete</a>
+              <% end %>
+              </dt>
+            <% end %>
+
+        </dl>
+        </div>
+         </div>
+
+         <h2> Rejected </h2>
+         <div class="row">
+           <div class="col-md-12 mb-2">
+             <dl class="dl-horizontal">
+
+               <% @accepted = @event.responses.where(event_response: "Rejected") %>
+               <% @accepted.each do |i| %>
+
+
+               <dt><%= i.user.email %>
+                 <% if @event.user_id == current_user.id %>
+                 <a href="/remove_invited/<%= @event.id %>/<%=i.user_id%>" class="btn btn-danger" rel="nofollow">Delete</a>
+                 <% end %>
+                </dt>
+             <% end %>
+
+         </dl>
+         </div>
+          </div>
+
+          <h2> Pending </h2>
+          <div class="row">
+            <div class="col-md-12 mb-2">
+              <dl class="dl-horizontal">
+
+                <% @accepted = @event.responses.where(event_response: "Pending") %>
+                <% @accepted.each do |i| %>
+
+
+                <dt><%= i.user.email %>
+                <% if @event.user_id == current_user.id %>
+                  <a href="/remove_invited/<%= @event.id %>/<%=i.user_id%>" class="btn btn-danger" rel="nofollow">Delete</a>
+                  <% end %>
+                </dt>
+              <% end %>
+
+          </dl>
+          </div>
+           </div>
