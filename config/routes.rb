@@ -79,6 +79,7 @@ Rails.application.routes.draw do
 
   # READ
   get "/events", :controller => "events", :action => "index"
+  get "/my_events", :controller => "events", :action => "my_events"
   get "/events/:id", :controller => "events", :action => "show"
 
   get "/send_simple_message/:id", :controller => "events", :action => "send_simple_message"

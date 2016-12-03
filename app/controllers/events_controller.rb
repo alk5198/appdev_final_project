@@ -9,6 +9,13 @@ class EventsController < ApplicationController
     render("events/index.html.erb")
   end
 
+  def my_events
+    @events = Event.all
+    @events = @events.order(:date_time)
+
+    render("my_events.html.erb")
+  end
+
   def show
     @event = Event.find(params[:id])
     @event_comment = EventComment.new
@@ -73,9 +80,16 @@ end
 
     save_status = @event.save
 
+    @response = Response.new
+        @response.user_id = @event.user_id
+        @response.event_response = "Accepted"
+        @response.back_out = 0
+        @response.event_id = @event.id
+        @response.save
 
 
-  @response = Response.new
+
+        @response = Response.new
           params[:invites].each do |i|
             @response = Response.new
 
