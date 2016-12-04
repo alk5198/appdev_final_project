@@ -50,8 +50,6 @@
 
           <li class="active"><a href="/events"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp; Pending Events &nbsp;<span class="badge">
           <%=  Response.where("user_id = #{current_user.id} AND event_response = 'Pending'").count %></span> </a></li>
-          <% else %>
-          <li><a href="/events"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;Events</a></li>
           <% end %>
 
 

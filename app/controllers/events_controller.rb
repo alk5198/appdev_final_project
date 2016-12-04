@@ -22,20 +22,10 @@ class EventsController < ApplicationController
 
 
 
-if @event.street != ""
-    @street_address_without_spaces = URI.encode(@event.street)
+if @event.address != ""
 
-        url = "http://maps.googleapis.com/maps/api/geocode/json?address=#{@street_address_without_spaces}"
-
-        raw_data = open(url).read
-        parsed_data = JSON.parse(raw_data)
-
-              @results = parsed_data["results"]
-              @first=@results[0]
-              @geometry=@first["geometry"]
-              @location=@geometry["location"]
-              @lat=@location["lat"]
-              @long=@location["lng"]
+              @lat=@event.lat
+              @long=@event.long
 end
 
     render("events/show.html.erb")
@@ -56,21 +46,47 @@ end
 
     @event.description = params[:description]
 
-    @event.street = params[:street]
+    @event.address = params[:address]
 
-    @event.city = params[:city]
 
-    @event.state = params[:state]
+if @event.address != ""
+      @street_address_without_spaces = URI.encode(@event.address)
 
-    @event.zip = params[:zip]
+        url = "http://maps.googleapis.com/maps/api/geocode/json?address=#{@street_address_without_spaces}"
 
-    @event.neighborhood = params[:neighborhood]
+        raw_data = open(url).read
+        parsed_data = JSON.parse(raw_data)
+              @results = parsed_data["results"]
+
+
+    @event.street = parsed_data["results"][0]["address_components"][0]["long_name"] + " " +parsed_data["results"][0]["address_components"][1]["long_name"]
+
+    @event.city = parsed_data["results"][0]["address_components"][3]["long_name"]
+
+    @event.state = parsed_data["results"][0]["address_components"][5]["long_name"]
+
+
+    if parsed_data["results"][0]["address_components"][7]
+    @event.zip = parsed_data["results"][0]["address_components"][7]["long_name"]
+  end
+
+
+    @event.neighborhood = parsed_data["results"][0]["address_components"][2]["long_name"]
+
+      @event.lat = parsed_data["results"][0]["geometry"]["location"]["lat"]
+
+      @event.long = parsed_data["results"][0]["geometry"]["location"]["lng"]
+
+    end
 
     @event.number_of_spots = params[:number_of_spots]
 
     @event.date_time = Chronic.parse(params[:date_time])
 
     @event.image_url = params[:image_url]
+    if @event.image_url == ""
+      @event.image_url = "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcTtzp4IQOojV9S4qKZ7gIJ8IpybxCR69Su0ovm-n3nI5cvKC-U6"
+    end
 
     @event.public_private = params[:public_private]
 
@@ -88,7 +104,8 @@ end
         @response.save
 
 
-
+        if @event.errors.any?
+        else
         @response = Response.new
           params[:invites].each do |i|
             @response = Response.new
@@ -104,7 +121,7 @@ end
 
             @response.save
           end
-
+        end 
 
 
 

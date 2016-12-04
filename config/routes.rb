@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
   devise_for :users
   devise_for :views
-  get "/", :controller => "events", :action => "index"
+  get "/", :controller => "events", :action => "my_events"
   # Routes for the Event_comment resource:
   # CREATE
   get "/event_comments/new", :controller => "event_comments", :action => "new"

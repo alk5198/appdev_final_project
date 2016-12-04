@@ -6,6 +6,7 @@
       <%= message %>
     </div>
   <% end %>
+  <% @friendships = Friendship.all %>
 <% end %>
 
 <div class="page-header">
@@ -49,73 +50,20 @@
 
 
 
-      <!-- Label and input for street -->
 
       <div class="form-group">
-        <label for="street" class="control-label">
-          Street
+        <label for="address" class="control-label">
+        Address
         </label>
 
 
-        <input type="text" id="street" name="street" placeholder="Street" class="form-control" value="<%= @event.street %>">
+        <input type="text" id="address" name="address" placeholder="Address" class="form-control" value="<%= @event.address %>">
 
       </div>
 
 
 
-      <!-- Label and input for city -->
 
-      <div class="form-group">
-        <label for="city" class="control-label">
-          City
-        </label>
-
-
-        <input type="text" id="city" name="city" placeholder="City" class="form-control" value="<%= @event.city %>">
-
-      </div>
-
-
-
-      <!-- Label and input for state -->
-
-      <div class="form-group">
-        <label for="state" class="control-label">
-          State
-        </label>
-
-
-        <input type="text" id="state" name="state" placeholder="State" class="form-control" value="<%= @event.state %>">
-
-      </div>
-
-
-
-      <!-- Label and input for zip -->
-
-      <div class="form-group">
-        <label for="zip" class="control-label">
-          Zip
-        </label>
-
-
-        <input type="text" id="zip" name="zip" placeholder="Zip" class="form-control" value="<%= @event.zip %>">
-
-      </div>
-
-
-
-      <!-- Label and input for neighborhood -->
-
-      <div class="form-group">
-        <label for="neighborhood" class="control-label">
-          Neighborhood
-        </label>
-
-
-        <input type="text" id="neighborhood" name="neighborhood" placeholder="Neighborhood" class="form-control" value="<%= @event.neighborhood %>">
-
-      </div>
 
 
 
@@ -212,7 +160,7 @@
         </label>
 
 
-
+        <% if @friendships %>
         <select multiple class="form-control" id="invites" name="invites[]" >
         <% @friendships.each do |friendship| %>
           <tr>
@@ -226,6 +174,7 @@
           <%end%>
           <%end%>
         </select>
+        <%end%>
       </div>
 
 

@@ -22,6 +22,8 @@
         <th>Message</th>
 
         <th>Status</th>
+
+        <th></th>
       </tr>
 
       <% @friendships.each do |friendship| %>
@@ -52,21 +54,13 @@
 
         <td>
         <a href="/delete_friendship/<%= friendship.id %>" class="btn btn-danger" >Remove Request</a>
-        <%end%>
         </td>
-
-
-
-
-
+        <%end%>
 
       </tr>
       <% end %>
     </table>
   </div>
-
-
-
 </div>
 
 
@@ -91,7 +85,8 @@
         <td><%= friendship.receiver.email %></td>
         <%end%>
         <td>
-        <a href="/delete_friendship/<%= friendship.id %>" class="btn btn-danger" >Delete friendship</a>
+        <a href="/delete_friendship/<%= friendship.id %>" class="btn btn-danger" ><i class="fa fa-trash-o fa-md" aria-hidden="true"></i>
+      </a></a>
         </td>
 
         <%else%>

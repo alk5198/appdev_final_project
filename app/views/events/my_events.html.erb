@@ -24,7 +24,7 @@
             @ <%= (User.find_by id: event.user_id).email %>
           </emd></small>
           <% if current_user.id == event.user_id %>
-          <a href="/delete_event/<%=event.id %>" data-toggle="tooltip" data-placement="bottom" title="Warning: This will permanantly delete the event, no going back!!!">
+          <a href="/delete_event/<%=event.id %>" style="color: rgb(231,76,60)" data-toggle="tooltip" data-placement="bottom" title="Warning: This will permanantly delete the event, no going back!!!">
           <span class="pull-right">Delete&nbsp;<i class="fa fa-trash-o fa-md" aria-hidden="true"></i></span>
         </a>
 
@@ -32,7 +32,7 @@
           <span class="pull-right">Edit <i class="fa fa-fw fa-edit fa-md" aria-hidden="true"></i>&nbsp;&nbsp;&nbsp;</span>
         </a>
           <% else %>
-          <a href="/back_out_invite/<%= event.id %>" data-toggle="tooltip" data-placement="bottom" title="Warning: Backing out of an invite will hurt your flakiness score!!">
+          <a href="/back_out_invite/<%= event.id %>" data-toggle="tooltip" data-placement="bottom" title="Warning: Backing out of an invite will hurt your flakiness score!!" style="color: rgb(231,76,60)">
           <span class="glyphicon glyphicon-log-out pull-right"></span>
           <span class="pull-right">Back out of event &nbsp;</span>
           </a>
