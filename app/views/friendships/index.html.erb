@@ -78,7 +78,8 @@
       <% @friendships.each do |friendship| %>
       <tr>
 
-      <% if friendship.receiver.id == current_user.id || friendship.sender.id == current_user.id && friendship.status == 1 %>
+      <% if friendship.receiver.id == current_user.id || friendship.sender.id == current_user.id %>
+      <% if friendship.status == 1 %>
         <% if friendship.sender.id != current_user.id%>
         <td><%= friendship.sender.email %></td>
         <%else%>
@@ -92,6 +93,7 @@
         <%else%>
         <%end%>
       </tr>
+      <% end %>
       <% end %>
     </table>
   </div>

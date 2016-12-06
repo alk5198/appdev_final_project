@@ -38,7 +38,29 @@
           Friend to add:
         </label>
 
-        <%= select_tag(:user_id_2, options_from_collection_for_select(User.all.where.not(id: current_user.id), :id, :email, @friendship.user_id_2), :class => "form-control") %>
+
+        <!-- <%= select_tag(:user_id_2, options_from_collection_for_select(User.all.where.not(id: current_user.id), :id, :email, @friendship.user_id_2), :class => "form-control") %> -->
+
+
+                <select  id="user_id_2" name="user_id_2" >
+                <% @users.each do |user| %>
+                  <tr>
+                  <% if (@my_friendships_s.find_by id: user.id) || (@my_friendships_r.find_by id: user.id) %>
+                  <% elsif user.id == current_user.id %>
+                  <% else %>
+                    <td><option  value=<%= user.id %>><%= user.email %></option></td>
+                  <%end%>
+                  <%end%>
+                </select>
+
+
+
+
+
+
+
+
+
 
       </div>
 

@@ -15,6 +15,9 @@ class FriendshipsController < ApplicationController
 
   def new
     @friendship = Friendship.new
+    @users = User.all 
+    @my_friendships_s = current_user.friends_where_sender
+    @my_friendships_r = current_user.friends_where_receiver
 
     render("friendships/new.html.erb")
   end

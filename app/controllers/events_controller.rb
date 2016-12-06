@@ -58,24 +58,31 @@ if @event.address != ""
         parsed_data = JSON.parse(raw_data)
               @results = parsed_data["results"]
 
+    if  parsed_data["results"][0]["address_components"][0]["long_name"].to_s + " " +parsed_data["results"][0]["address_components"][1].to_s
+      @event.street = parsed_data["results"][0]["address_components"][0]["long_name"] + " " +parsed_data["results"][0]["address_components"][1]["long_name"]
+    end
 
-    @event.street = parsed_data["results"][0]["address_components"][0]["long_name"] + " " +parsed_data["results"][0]["address_components"][1]["long_name"]
-
+    if parsed_data["results"][0]["address_components"][3]
     @event.city = parsed_data["results"][0]["address_components"][3]["long_name"]
+  end
 
+  if parsed_data["results"][0]["address_components"][5]
     @event.state = parsed_data["results"][0]["address_components"][5]["long_name"]
-
+  end
 
     if parsed_data["results"][0]["address_components"][7]
     @event.zip = parsed_data["results"][0]["address_components"][7]["long_name"]
   end
 
-
+  if parsed_data["results"][0]["address_components"][2]
     @event.neighborhood = parsed_data["results"][0]["address_components"][2]["long_name"]
+end
 
       @event.lat = parsed_data["results"][0]["geometry"]["location"]["lat"]
 
+
       @event.long = parsed_data["results"][0]["geometry"]["location"]["lng"]
+
 
     end
 
@@ -104,9 +111,10 @@ if @event.address != ""
         @response.save
 
 
-        if @event.errors.any?
+        if @event.errors.any? || params[:invites] == nil
         else
         @response = Response.new
+
           params[:invites].each do |i|
             @response = Response.new
 
@@ -121,7 +129,7 @@ if @event.address != ""
 
             @response.save
           end
-        end 
+        end
 
 
 
@@ -178,6 +186,8 @@ if @event.address != ""
 
     save_status = @event.save
 
+
+  if @event.errors.any? || params[:invites] != nil
             params[:invites].each do |i|
               if @event.responses.find_by user_id: i
             else
@@ -195,11 +205,12 @@ if @event.address != ""
               @response.save
             end
           end
+        end
 
 
 
     if save_status == true
-      redirect_to("/events", :notice => "Event updated successfully.")
+      redirect_to("/my_events", :notice => "Event updated successfully.")
     else
       render("events/edit.html.erb")
     end
@@ -380,6 +391,7 @@ end
   @event = Event.find(params[:id])
 
 @event.responses.each do |response|
+  if response.event_response == "Pending"
 
     RestClient.post "https://api:key-d2d7469c797de7837080759482b47f00"\
     "@api.mailgun.net/v3/sandbox9ee08d75de414c67b7de10bd6ea8bb1b.mailgun.org/messages",
@@ -388,6 +400,7 @@ end
     :subject => "Hello Adam, you have just been invited to a #{@event.title} on SchedDash",
     :text => "You have been invied to the following event: #{@event.title}, to be held on #{@event.date_time}. Please visit http://localhost:3000 to accept/reject the invite :)"
 end
+end 
 
 redirect_to(:back, :notice => "Invites sent successfully.")
 

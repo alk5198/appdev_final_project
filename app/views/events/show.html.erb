@@ -199,7 +199,7 @@
         <% @accepted = @event.responses.where(event_response: "Accepted") %>
         <% @accepted.each do |i| %>
         <ul class="list-unstyled"><li>  <%= i.user.email %>
-          <% if i.user_id == current_user.id %>
+          <% if i.user_id == @event.user_id %>
           <b><i>(Creator)</i></b>
           <% end %>
           <% if @event.user_id == current_user.id %>

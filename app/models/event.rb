@@ -6,6 +6,8 @@ class Event < ActiveRecord::Base
   validates :date_time, :presence => true
   validates :address, :presence => true
 
-  has_many :responses
+  has_many :responses, :dependent => :destroy
+
+  validates_associated :responses
 
 end

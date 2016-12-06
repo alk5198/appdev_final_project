@@ -9,7 +9,7 @@
 <% end %>
 
 <div class="page-header">
-  <h3>Edit Event #<%= @event.id %></h3>
+  <h3>Edit <%= @event.title %></h3>
 </div>
 
 <div class="row">
@@ -201,15 +201,12 @@
 
       <!-- Label and input for user_id -->
 
-      <div class="form-group">
-        <label for="user_id" class="control-label">
-          User
-        </label>
 
 
-        <input type="text" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @event.user_id %>">
 
-      </div>
+        <input type="hidden" id="user_id" name="user_id" placeholder="User" class="form-control" value="<%= @event.user_id %>">
+
+      
 
       <div class="form-group">
         <label for="invites" class="control-label">
@@ -218,21 +215,25 @@
 
       <select multiple class="form-control" id="invites" name="invites[]" >
       <% @friendships.each do |friendship| %>
-      <% if @event.responses.find_by user_id: friendship.receiver.id %>
-      <% elsif @event.responses.find_by user_id: friendship.sender.id %>
-      <% else %>
-        <tr>
-        <% if friendship.receiver.id == current_user.id || friendship.sender.id == current_user.id && friendship.status == 1 %>
-          <% if friendship.sender.id != current_user.id%>
-          <td><option  value=<%= friendship.user_id_1 %>><%= friendship.sender.email %></option></td>
-          <%else%>
-          <td><option  value=<%= friendship.user_id_2 %>><%= friendship.receiver.email %></option></td>
-          <%end%>
+      <tr>
+        <% if friendship.receiver.id == current_user.id %>
+          <% if @event.responses.find_by user_id: friendship.sender.id %>
+          <% else %>
+          <td><option value=<%= friendship.user_id_1 %>><%= friendship.sender.email %></option></td>
+            <% end %>
+        <% elsif friendship.sender.id == current_user.id %>
+          <% if @event.responses.find_by user_id: friendship.receiver.id %>
+          <% else %>
+          <td><option value=<%= friendship.user_id_2 %>><%= friendship.receiver.email %></option></td>
+            <% end %>
+        <% end %>
+        <% end %>
+                </select>
 
-        <%end%>
-        <%end%>
-        <%end%>
-      </select>
+
+
+
+
 
       <button class="btn btn-warning">
         Update Event
