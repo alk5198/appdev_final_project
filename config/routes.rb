@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   get "/", :controller => "events", :action => "my_events"
   # Routes for the Event_comment resource:
   # CREATE
+
+  get "/profile", :controller => "users", :action => "profile"
+
   get "/event_comments/new", :controller => "event_comments", :action => "new"
   post "/create_event_comment", :controller => "event_comments", :action => "create"
 

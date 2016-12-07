@@ -1,0 +1,68 @@
+
+<h3></h3>
+  <div class="container">
+        <div class="row">
+
+          <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xs-offset-0 col-sm-offset-0 col-md-offset-3 col-lg-offset-3 toppad" >
+
+
+            <div class="panel panel-info">
+              <div class="panel-heading">
+                <h3 class="panel-title"><%=current_user.email%></h3>
+              </div>
+              <div class="panel-body">
+                <div class="row">
+                  <div class="col-md-3 col-lg-3 " align="center"> <img alt="User Pic" src="http://babyinfoforyou.com/wp-content/uploads/2014/10/avatar-300x300.png" class="img-circle img-responsive"> </div>
+
+
+                  <div class=" col-md-9 col-lg-9 ">
+                    <table class="table table-user-information">
+                      <tbody>
+                        <tr>
+                          <td>Email:</td>
+                          <td><a href="<%=current_user.email%>"><%=current_user.email%></a></td>
+                        </tr>
+                        <tr>
+                          <td>Join date:</td>
+                          <td><%= current_user.created_at.strftime('%b %e, %C%y') %></td>
+                        </tr>
+                        <tr>
+                          <td>Total events attended:</td>
+                          <td><%= Response.where("user_id = #{current_user.id} AND event_response = 'Accepted'").count%></td>
+                        </tr>
+
+                           <tr>
+                               <tr>
+                          <td>Number of back outs:</td>
+                          <td><%= Response.where("user_id = #{current_user.id} AND back_out = 1").count%></td>
+                        </tr>
+                          <tr>
+                          <td><strong>Current flakiness score:</strong></td>
+                          <td><strong><%=(Score.find_by user_id: current_user.id).flakiness_score   %></strong></td>
+                        </tr>
+
+                          <td>Friend count:</td>
+                          <td><%=current_user.friends_where_sender.count + current_user.friends_where_receiver.count%>
+                          </td>
+
+                        </tr>
+
+                      </tbody>
+                    </table>
+
+                    <a href="/my_events" class="btn btn-primary">My Events</a>
+                    <a href="/friendships" class="btn btn-primary">My Friends</a>
+                  </div>
+                </div>
+              </div>
+                   <div class="panel-footer">
+
+                              <a href="/users/edit" data-original-title="Edit this user" data-toggle="tooltip" type="button" class="btn btn-sm btn-warning"><i class="glyphicon glyphicon-edit"></i>&nbsp;Edit Profile</a>
+
+                          </span>
+                      </div>
+
+            </div>
+          </div>
+        </div>
+      </div>

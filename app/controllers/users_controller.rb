@@ -5,6 +5,10 @@ class UsersController < ApplicationController
     render("users/index.html.erb")
   end
 
+def profile
+  render("profile.html.erb")
+end
+
   def show
     @user = User.find(params[:id])
 
